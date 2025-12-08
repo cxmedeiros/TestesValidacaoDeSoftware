@@ -1,16 +1,18 @@
 import ast
 import inspect
-from langchain.prompts import PromptTemplate
-from langchain_openai import ChatOpenAI
+from langchain_core.prompts import PromptTemplate
+from langchain_groq import ChatGroq
 import dataset.funcoes_ramificadas
-from prompts import UNIT_TEST_PROMPT_TEMPLATE, PROMPT_PATH_EXTRACTOR
+from prompts.unit_test import UNIT_TEST_PROMPT_TEMPLATE
+from prompts.path_extractor import PROMPT_PATH_EXTRACTOR
 import subprocess
 import re
 
-from langchain.schema import HumanMessage
+from langchain_core.messages import HumanMessage
 from dotenv import load_dotenv
 
 load_dotenv()
+
 
 def get_functions_from_module(module):
     functions = []
@@ -31,7 +33,7 @@ def extract_paths_with_llm(func, llm):
     )
     prompt = prompt_intermediate.format(ast_dump=ast_str)
 
-    response = llm([HumanMessage(content=prompt)]).content
+    response = llm.invoke([HumanMessage(content=prompt)]).content
 
     return response
 
@@ -133,7 +135,7 @@ def generate_tests_with_langchain(func, llm, prompt, paths_description):
         return_type=context["return_type"]
     )
 
-    raw_result = llm([HumanMessage(content=formatted_prompt)]).content
+    raw_result = llm.invoke([HumanMessage(content=formatted_prompt)]).content
     tests.append(raw_result)
 
     return tests
@@ -141,7 +143,7 @@ def generate_tests_with_langchain(func, llm, prompt, paths_description):
 
 if __name__ == "__main__":
     
-    llm = ChatOpenAI(model="gpt-4.1-nano", temperature=0)
+    llm = ChatGroq(model="meta-llama/llama-4-maverick-17b-128e-instruct", temperature=0)
 
     prompt = PromptTemplate(
         input_variables=["function_name", "path_description", "signature", "parameters", "docstring", "return_type"],
