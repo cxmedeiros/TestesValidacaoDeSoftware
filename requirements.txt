@@ -1,0 +1,4 @@
+langchain==0.3.27
+langchain_community==0.3.27
+transformers==4.54.1
+torch==2.1.2
