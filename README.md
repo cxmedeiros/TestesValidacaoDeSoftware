@@ -55,7 +55,7 @@ Este projeto reproduz dois elementos centrais do artigo *SymPrompt*:
 |---------------------------------|----------------------|
 | Kailane Eduarda Felix da Silva  | kefs                 |
 | Maria Vitória Soares Muniz      | mvsm3                |
-| Camila Xavier Medeiros          | cxm                  |
+| Camila Xavier de Medeiros       | cxm                  |
 | Gabriel Lopes de Souza          | gls6                 |
 
 
